@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,target-densitydpi=device-dpi, user-scalable=no">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>star</title>
+</head>
+
+
+<body>
+<script>
+
+var width=(window.innerWidth<600)?window.innerWidth:600;
+
+var height=width;
+var canvas = document.createElement('canvas');
+canvas.id     = "canvas";
+canvas.width  = width;
+canvas.height = width;
+canvas.style.zIndex   = 0;
+canvas.style.position = "relative";
+canvas.style.border   = "1px solid";
+
+var body = document.getElementsByTagName("body")[0];
+body.appendChild(canvas);
+
+var ctx = document.getElementById('canvas').getContext('2d');
+
+//var img = document.createElement('img');
+//img.src = "outer-space.jpg";
+//var img2 = document.createElement('img');
+//img2.src = "pattern1.jpg";
+
+ 
+
+var _x=0;
+for (var n=1;n<=8;n++){
+
+window['_y'+n]=0;
+  window['x_w'+n]=0;
+  window['c'+n]=Math.round(Math.random()*100);
+  window['x_'+n+'arrayL']=[];
+  window['x_'+n+'arrayR']=[];
+  window['y_'+n+'array']=[];
+  window['amplitude'+n] = Math.random()*20+10;
+  window['pl_min'+n] = -1;
+  window['_angle'+n]=Math.round(Math.random()*360);
+window['_bw'+n]= Math.random()*1;
+}
+
+
+
+
+
+
+/*
+var x_1arrayL=[]; 
+var x_1arrayR=[];
+var y_1array=[]; 
+var amplitude1 = 90;  
+var c1=0;
+var _x=0;
+var _y1=0; 
+var x_w1=0;
+var _angle1=30;
+var pl_min1=0;
+var _bw1= Math.random()*1+1;
+
+var x_2arrayL=[]; 
+var x_2arrayR=[];
+var y_2array=[]; 
+var amplitude2 = 30;  
+var c2=0;
+var _y2=0; 
+var x_w2=0;
+var _angle2=1;
+var pl_min2=0;
+var _bw2= Math.random()*1+1;
+
+var x_3arrayL=[]; 
+var x_3arrayR=[];
+var y_3array=[]; 
+var amplitude3 = 30;  
+var c3=0;
+var _y3=0; 
+var x_w3=0;
+var _angle3=1;
+var pl_min3=0;
+var _bw3= Math.random()*1+1;
+
+var x_4arrayL=[]; 
+var x_4arrayR=[];
+var y_4array=[]; 
+var amplitude4 = 30;  
+var c4=0;
+var _y4=0; 
+var x_w4=0;
+var _angle4=1;
+var pl_min4=0;
+var _bw4= Math.random()*1+1;
+
+var x_5arrayL=[]; 
+var x_5arrayR=[];
+var y_5array=[]; 
+var amplitude5 = 90;  
+var c5=0;
+var _y5=0; 
+var x_w5=0;
+var _angle5=30;
+var pl_min5=0;
+var _bw5= Math.random()*1+1;
+
+var x_6arrayL=[]; 
+var x_6arrayR=[];
+var y_6array=[]; 
+var amplitude6 = 30;  
+var c6=0;
+var _y6=0; 
+var x_w6=0;
+var _angle6=1;
+var pl_min6=0;
+var _bw6= Math.random()*1+1;
+
+var x_7arrayL=[]; 
+var x_7arrayR=[];
+var y_7array=[]; 
+var amplitude7 = 30;  
+var c7=0;
+var _y7=0; 
+var x_w7=0;
+var _angle7=1;
+var pl_min7=0;
+var _bw7= Math.random()*1+1;
+
+var x_8arrayL=[]; 
+var x_8arrayR=[];
+var y_8array=[]; 
+var amplitude8 = 30;  
+var c8=0;
+var _y8=0; 
+var x_w8=0;
+var _angle8=1;
+var pl_min8=0;
+var _bw8= Math.random()*1+1;
+*/
+
+
+
+function drawBeam(ind){
+
+if(window['c'+ind]>=360){
+
+   _x=0;
+   window['_y'+ind]=0;
+  window['x_w'+ind]=0;
+  window['c'+ind]=Math.round(Math.random()*100);
+  window['x_'+ind+'arrayL']=[];
+  window['x_'+ind+'arrayR']=[];
+  window['y_'+ind+'array']=[];
+  window['amplitude'+ind] = Math.random()*20+10;
+  window['pl_min'+ind] = (window['pl_min'+ind] ==1)?-1:1;
+  window['_angle'+ind]=Math.round(Math.random()*360);
+  var bw=Math.random()*1;
+  window['_bw'+ind] = (bw>0.85)?bw-0.25:bw;
+   }
+//ctx.rotate(window['_angle'+ind]*Math.PI/180);
+
+  // 
+  var x = Math.round(window['amplitude'+ind] * Math.sin(window['c'+ind]*(Math.PI/180)))*window['pl_min'+ind] ;
+
+	 window['_y'+ind]-=6;
+	window['x_w'+ind]+=window['_bw'+ind];
+	window['x_'+ind+'arrayL'].unshift(x-window['x_w'+ind]);
+	window['x_'+ind+'arrayR'].unshift(x+window['x_w'+ind]);
+	window['y_'+ind+'array'].push(window['_y'+ind]);
+	
+	
+	//ctx.fillStyle = "red";
+
+ctx.beginPath();
+
+
+	for(var j=0;j<window['x_'+ind+'arrayL'].length;j++){
+	ctx.lineTo(window['x_'+ind+'arrayL'][j],window['y_'+ind+'array'][j]);
+	}
+	for(j=window['x_'+ind+'arrayR'].length;j>=0;j--){
+    ctx.lineTo(window['x_'+ind+'arrayR'][j],window['y_'+ind+'array'][j]);
+//ctx.closePath();
+}
+//ctx.lineWidth = 1;
+//ctx.strokeStyle = "#222";
+//ctx.stroke();
+ctx.strokeStyle = "rgba(255,52,52,0.5";//"+ this.timeToLive/255+"
+ctx.fillStyle = "rgba(255,52,52,"+((360/window['c'+ind])-1.1)+")";	
+ctx.fill();
+//document.getElementById('count').innerHTML=360/c1;
+//var pat = ctx.createPattern(img, "repeat");
+//ctx.fillStyle = pat;
+//ctx.fill(); 
+
+//var my_gradient=ctx.createLinearGradient(0, 0, 50, 0);
+//my_gradient.addColorStop(0, "red");
+//my_gradient.addColorStop(1, "white");
+//ctx.fillStyle = my_gradient;
+//ctx.fill();
+
+
+ctx.closePath();
+
+//ctx.restore();
+
+   window['c'+ind]+=5;
+
+
+}
+
+var draw = function() { 
+
+
+ctx.clearRect(0,0,width,height);
+
+var lingrad = ctx.createLinearGradient(0, 100, 0, 300);
+lingrad.addColorStop(0, '#232256');
+ lingrad.addColorStop(1, '#143778');
+  
+ctx.fillStyle = lingrad;
+ctx.fillRect(0, 0,width,height);
+  
+  
+//var pat = ctx.createPattern(img, "repeat");
+//ctx.fillStyle = pat;
+//ctx.fill();  
+
+
+ctx.save();
+ctx.translate(width/2,height/2);
+ctx.rotate(90*Math.PI/180);  
+drawBeam(1);
+ctx.restore();
+ctx.save();
+ctx.translate(width/2,height/2);
+ctx.rotate(1*Math.PI/180);  
+drawBeam(2);
+ctx.restore();
+ctx.save();
+ctx.translate(width/2,height/2);
+ctx.rotate(180*Math.PI/180);  
+drawBeam(3);
+ctx.restore();
+ctx.save();
+ctx.translate(width/2,height/2);
+ctx.rotate(-90*Math.PI/180);  
+drawBeam(4);
+ctx.restore();
+
+ctx.save();
+ctx.translate(width/2,height/2);
+ctx.rotate(45*Math.PI/180);  
+drawBeam(5);
+ctx.restore();
+
+ctx.save();
+ctx.translate(width/2,height/2);
+ctx.rotate(135*Math.PI/180);  
+drawBeam(6);
+ctx.restore();
+
+ctx.save();
+ctx.translate(width/2,height/2);
+ctx.rotate(225*Math.PI/180);  
+drawBeam(7);
+ctx.restore();
+
+ctx.save();
+ctx.translate(width/2,height/2);
+ctx.rotate(315*Math.PI/180);  
+drawBeam(8);
+ctx.restore();
+
+ctx.beginPath();
+ctx.arc(width/2,height/2, 60, 0, 2 * Math.PI);
+//ctx.fillStyle = "orange";	
+//ctx.fill();
+
+
+var grd = ctx.createRadialGradient(width/2,height/2, 40, width/2,height/2, 65);
+grd.addColorStop(0, "orange");
+grd.addColorStop(1, "rgba(255,52,52,0.1)");//
+
+// Fill with gradient
+ctx.fillStyle = grd;
+
+
+//var pat1 = ctx.createPattern(img, "repeat");
+//ctx.fillStyle = pat1;
+ctx.fill(); 
+
+//ctx.closePath(); 
+
+
+
+window.requestAnimationFrame(draw); 
+//document.getElementById('count').innerHTML=c1;//pl_min;//x+';'+c;
+ 
+};
+window.requestAnimationFrame(draw);
+///////////////////////////////////////////////
+
+
+</script>
+
+</body>
+</html>
